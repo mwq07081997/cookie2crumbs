@@ -12,7 +12,7 @@ contract N2DRewards is ERC20, ERC20Burnable, Ownable {
   
   constructor() ERC20("ERCRewards", "ERR") { }
 
-  function mintvault(address to, uint256 amount) external {
+  function mint(address to, uint256 amount) external {
     require(controllers[msg.sender], "Only controllers can mint");
     _mint(to, amount);
   }
