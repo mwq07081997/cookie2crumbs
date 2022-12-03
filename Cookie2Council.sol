@@ -17,6 +17,8 @@ contract Cookie2Council is Ownable, Pausable{
     //string transaction_ide;
     mapping(address => bool) whitelistedAddresses;
 
+    address[] public list_of_addresses; //array to get list of addresses
+
     // modifier for whitelisted address's function calls
     modifier isWhitelisted(address _address) {
       require(whitelistedAddresses[_address], "Whitelist: You need to be whitelisted");
@@ -25,6 +27,7 @@ contract Cookie2Council is Ownable, Pausable{
 
     function addUser(address _addressToWhitelist) external onlyOwner {
       whitelistedAddresses[_addressToWhitelist] = true;
+      list_of_addresses.push(_addressToWhitelist);
     }
 
     function removeUser(address _addressToWhitelist) external onlyOwner {
@@ -48,11 +51,11 @@ contract Cookie2Council is Ownable, Pausable{
         require (success, "delegate call failed");
     }
 
-    function pause() public onlyOwner {
+    function pause() public isWhitelisted(msg.sender) {
         _pause();
     }
 
-    function unpause() public onlyOwner {
+    function unpause() public isWhitelisted(msg.sender) {
         _unpause();
     }
     
