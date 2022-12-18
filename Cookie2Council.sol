@@ -12,7 +12,7 @@ contract Cookie2Council is Ownable, Pausable{
 
     constructor(string memory _name) {  
       name = _name;
-      _grantRole(ADMIN, msg.sender);
+      _grantRole(ADMIN, owner());
     }
 
     // ROLE ACCESS
