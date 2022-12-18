@@ -10,9 +10,9 @@ contract Cookie2Council is Ownable, Pausable{
 
     string public name;
 
-    constructor(string memory _name) {  
+    constructor(string memory _name, address _owner) {  
       name = _name;
-      _grantRole(ADMIN, owner());
+      _grantRole(ADMIN, _owner);
     }
 
     // ROLE ACCESS
@@ -28,20 +28,6 @@ contract Cookie2Council is Ownable, Pausable{
       _;
     }
 
-
-    /*
-    //string transaction_ide;
-    mapping(address => bool) whitelistedAddresses;
-
-    address[] public list_of_addresses; //array to get list of addresses
-
-    // modifier for whitelisted address's function calls
-    modifier isWhitelisted(address _address) {
-      require(whitelistedAddresses[_address], "Whitelist: You need to be whitelisted");
-      _;
-    }
-    */
-
     // ROLE ACCESS FUNCTIONS
     function _grantRole(bytes32 _role, address _account) internal {
       roles[_role][_account] = true;
@@ -55,24 +41,9 @@ contract Cookie2Council is Ownable, Pausable{
       roles[_role][_account] = false;
     }
 
-    /*
-    function addUser(address _addressToWhitelist) external onlyRole(ADMIN) {
-      whitelistedAddresses[_addressToWhitelist] = true;
-      list_of_addresses.push(_addressToWhitelist);
-    }
-
-    function removeUser(address _addressToWhitelist) external onlyRole(ADMIN) {
-      whitelistedAddresses[_addressToWhitelist] = false;
-    }
-
-    function verifyUser(address _whitelistedAddress) public view returns(bool) {
-      bool userIsWhitelisted = whitelistedAddresses[_whitelistedAddress];
-      return userIsWhitelisted;
-    }
-    */
 
     // call to main contract to save logs
-    function logSignatures(address _contract, string[] calldata transaction_ids) external payable onlyRole(INDEXER) {
+    function logSignatures(address _contract, string[] calldata transaction_ids) external onlyRole(INDEXER) {
         // A's storage is set, B is not modified.
         string calldata transaction_id;
 
